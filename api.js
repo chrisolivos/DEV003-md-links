@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const { resolve } = require('path');
 
 
 // devuelve la ruta como absoluta
@@ -108,56 +109,83 @@ const findLink = (pathReceived) => {
 
 const statusLink = (pathReceived) => {
     return new Promise((resolve, reject) => {
-     //   let arrayStatusOk = [];
+        //   let arrayStatusOk = [];
         findLink(pathReceived).then((resultArray) => {
-            
-            let arrayStatusOk = [];
+            let arrayPromiseFetch = [];
+            //  let arrayStatusOk = [];
             resultArray.forEach((links) => {
-                fetch(links.href).then((res) => {
-                    let okresult = '';
-                    res.ok? okresult = 'ok' : okresult = 'fail';
-                    // if (res.ok) {
-                    //     okresult = 'ok';
-                    // } else {
-                    //     okresult = 'fail';
-                    // }
-                    //console.log(res.status); falta manejar la exception con el reject para codigo 500
-                    const obj = {
-                        //href: links.href,
-                        //text: links.text,
-                        //file: links.file,
-                        ...links,
-                        status: res.status,
-                        ok: okresult
-                    }
-                    //  console.log(obj);  
-                    arrayStatusOk.push(obj);
-                   // console.log(arrayStatusOk);
-                   
-                })
-            //    Promise.allSettled(arrayStatusOk).then((result)=>{ resolve(result)})
-                 // console.log(arrayStatusOk);
-                // return resolve(arrayStatusOk) 
-            });
+                const promiseFetch = fetch(links.href);
+                arrayPromiseFetch.push(promiseFetch);
 
-          //     return resolve( arrayStatusOk ); 
+            })
+            Promise.allSettled(arrayPromiseFetch).then((result) => {
+                let okresult = '';
+                for (let i = 0; i < result.length; i++) {
+                    if (result[i].status = 'fullfiled') {
+                          console.log('status: ',result[i].value.status, result[i].value.ok )
+                        result[i].value.ok ? okresult = 'ok' : okresult = 'fail';
+                        //console.log(res.status); falta manejar la exception con el reject para codigo 500
+                        resultArray[i].status = result[i].value.status;
+                        resultArray[i].ok = okresult;
+
+                    }else {
+                        console.log('error',result[i].reason.cause )
+                        okresult = 'fail';
+                        resultArray[i].status = result[i].reason.cause;
+                        resultArray[i].ok = okresult;
+                      }
+                    
+                }    resolve(resultArray)
+            })
         })
-       // reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
+        // reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
         // .catch((error) => {
         //  //   console.log('codigo de error: ',error.name) 
         //  console.log('codigo de error: ',error) 
         //  //    if (error.name === 'ENOTFOUND'){
         //    //     console.log('Url no encontrada')
         //    //  }
-        
+
         // }) 
 
 
     })
 }
 
+const readAllFiles=(path, arrayOfFiles = [])=>{
+    return new Promise((resolve, reject) => {
+	const files = fs.readdirSync(path)
+	files.forEach(file => {
+		const stat = fs.statSync(`${path}/${file}`)
+		if(stat.isDirectory()){
+			readAllFiles(`${path}/${file}`, arrayOfFiles)
+		}else if(file.includes('.md')){  
+		//	arrayOfFiles.push(`${path}/${file}`)
+        const convertAbsolute = pathAbsolute(`${path}/${file}`)
+        arrayOfFiles.push(convertAbsolute)
+		}
+	});
+	
+	resolve(arrayOfFiles)
+})
+}
+//const arrayprueba = (['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv'])
 
+const hasDuplicates=(pathReceived)=>{
+    return new Promise((resolve, reject) => {
+        //   let arrayStatusOk = [];
+        findLink(pathReceived).then((resultArray) => {
+            new set(resultArray.href).size < resultArray.length;
+            console.log(resultArray);
+        })
+      //  resolve
+    })
+   
+   
+   
+}
 
+//console.log(hasDuplicates());
 
 module.exports = {
     pathAbsolute,
@@ -166,7 +194,9 @@ module.exports = {
     pathIsFolder,
     isFileMd,
     findLink,
-    statusLink
+    statusLink,
+    readAllFiles,
+    hasDuplicates
 };
 
 

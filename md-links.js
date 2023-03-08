@@ -1,5 +1,5 @@
 
-const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink,statusLink } = require('./api.js');
+const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink,statusLink,readAllFiles, hasDuplicates } = require('./api.js');
 const fs = require('fs'); //manejo de archivos
 const path = require('path');
 
@@ -9,7 +9,7 @@ const mdLinks = (pathReceived, options) => {
 
     // convertir a ruta absoluta
     const pathResult = pathAbsolute(pathReceived);
-    // console.log(pathResult);
+  //  console.log(pathResult);
     if (pathExist(pathResult)) {
       //console.log('existe');
       if (pathIsFile(pathResult)) {
@@ -29,7 +29,7 @@ const mdLinks = (pathReceived, options) => {
              // console.log(urls);
               break;
             case "statsValidateTrue":
-              
+              hasDuplicates(pathResult)
              console.log("statsValidateTrue");
               break;
             case "statsValidateFalse":
@@ -45,7 +45,15 @@ const mdLinks = (pathReceived, options) => {
           // /// console.log(arrayUrls);
         }
       } else if (pathIsFolder(pathResult)) {
-        // console.log('es un directorio');
+         console.log('es un directorio');
+        readAllFiles(pathResult).then((result) => {
+        //   resolve(result) 
+         //  findLink(result).then((res)=>{console.log(res)})
+
+         // console.log (hasDuplicates(result))
+        })
+        .catch((error) => { reject(error) })
+        
         // recursividad
       }
     } else {
