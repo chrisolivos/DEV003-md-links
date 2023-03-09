@@ -1,5 +1,5 @@
 
-const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink,statusLink,readAllFiles, hasDuplicates } = require('./api.js');
+const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink, statusLink, readAllFiles, hasDuplicates } = require('./api.js');
 const fs = require('fs'); //manejo de archivos
 const path = require('path');
 
@@ -9,7 +9,7 @@ const mdLinks = (pathReceived, options) => {
 
     // convertir a ruta absoluta
     const pathResult = pathAbsolute(pathReceived);
-  //  console.log(pathResult);
+    //  console.log(pathResult);
     if (pathExist(pathResult)) {
       //console.log('existe');
       if (pathIsFile(pathResult)) {
@@ -20,47 +20,38 @@ const mdLinks = (pathReceived, options) => {
           switch (options) {
             case "validateTrue":
               statusLink(pathResult).then((result) => { resolve(result) })
-              .catch((error) => { reject(error) })
-             // console.log("validateTrue");
+                .catch((error) => { reject(error) })
+              // console.log("validateTrue");
               break;
             case "validateFalse":
-            findLink(pathResult).then((result) => { resolve(result) })
-            .catch((error) => { reject(error) })
-             // console.log(urls);
-              break;
-            case "statsValidateTrue":
-              hasDuplicates(pathResult)
-             console.log("statsValidateTrue");
-              break;
-            case "statsValidateFalse":
-              console.log("statsValidateFalse");
+              findLink(pathResult).then((result) => { resolve(result) })
+                .catch((error) => { reject(error) })
+              // console.log(urls);
               break;
           }
-
-
-          // if (findLink(pathResult)) { //verificar porque no devuelve true
-          //   console.log('si hay urls');
-          //   // console.log(findLink(pathResult));
-          // }
-          // /// console.log(arrayUrls);
         }
       } else if (pathIsFolder(pathResult)) {
-         console.log('es un directorio');
-        readAllFiles(pathResult).then((result) => {
-        //   resolve(result) 
-         //  findLink(result).then((res)=>{console.log(res)})
+        console.log('es un directorio');
+         readAllFiles(pathResult).then((result) => {
+       //  console.log(result)
 
-         // console.log (hasDuplicates(result))
+        
+       findLink(result).then((res)=>{console.log(res)
+      })
+
         })
         .catch((error) => { reject(error) })
-        
-        // recursividad
+
+        //recursividad
       }
     } else {
       reject("No existe la ruta ingresada");
     }
   })
 }
+
+
+
 module.exports = {
   mdLinks
 };

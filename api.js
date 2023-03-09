@@ -1,12 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
-const { resolve } = require('path');
+
 
 
 // devuelve la ruta como absoluta
 const pathAbsolute = (pathReceived) => {
-
     return path.resolve(pathReceived);
 }
 // console.log('ruta absoluta: ',pathAbsolute())
@@ -15,7 +14,6 @@ const pathAbsolute = (pathReceived) => {
 const pathExist = (pathReceived) => {
     if (fs.existsSync(pathReceived)) {
         return true;
-
     }
 }
 // console.log('existe archivo? ', pathExist())
@@ -24,7 +22,6 @@ const pathExist = (pathReceived) => {
 const pathIsFile = (pathReceived) => {
     if (fs.statSync(pathReceived).isFile()) {
         return true;
-
     }
 }
 //console.log('es archivo? ', pathIsFile())
@@ -46,7 +43,6 @@ const isFileMd = (pathReceived) => {
     if (extFile === '.md') {
         // leer el archivo, buscar link y agregarlos a un array
         return true;
-
     }
 }
 // funciona 
@@ -57,7 +53,8 @@ const isFileMd = (pathReceived) => {
 //si es archivo .md agregar a un array
 const findLink = (pathReceived) => {
     return new Promise((resolve, reject) => {
-        //   console.log('ruta recibida',pathReceived);
+       //   console.log('ruta recibida',pathReceived);
+     //  if(pathReceived.length<2){
         fs.readFile(pathReceived, 'utf-8', (error, data) => {
             if (error) {
                 return reject({ Error: `Error al leer archivo ${error}` });
@@ -73,8 +70,7 @@ const findLink = (pathReceived) => {
                         const obj = {
                             href: found[i].substring(end + 2, found[i].length - 1),
                             text: found[i].substring(start + 1, end),
-                            file: pathReceived // ruta del archivo, ruta absoluta debería ir acá
-
+                            file: pathReceived // ruta del archivo
                         }
                         //  console.log(obj);  
                         links.push(obj);
@@ -87,9 +83,8 @@ const findLink = (pathReceived) => {
                 }
             }
 
-
+        
         })
-
     })
 
 }
@@ -122,20 +117,20 @@ const statusLink = (pathReceived) => {
                 let okresult = '';
                 for (let i = 0; i < result.length; i++) {
                     if (result[i].status = 'fullfiled') {
-                          console.log('status: ',result[i].value.status, result[i].value.ok )
+                       // console.log('status: ', result[i].value.status, result[i].value.ok)
                         result[i].value.ok ? okresult = 'ok' : okresult = 'fail';
                         //console.log(res.status); falta manejar la exception con el reject para codigo 500
                         resultArray[i].status = result[i].value.status;
                         resultArray[i].ok = okresult;
 
-                    }else {
-                        console.log('error',result[i].reason.cause )
+                    } else {
+                        console.log('error', result[i].reason.cause)
                         okresult = 'fail';
                         resultArray[i].status = result[i].reason.cause;
                         resultArray[i].ok = okresult;
-                      }
-                    
-                }    resolve(resultArray)
+                    }
+
+                } resolve(resultArray)
             })
         })
         // reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
@@ -152,40 +147,27 @@ const statusLink = (pathReceived) => {
     })
 }
 
-const readAllFiles=(path, arrayOfFiles = [])=>{
+const readAllFiles = (path, arrayOfFiles = []) => {
     return new Promise((resolve, reject) => {
-	const files = fs.readdirSync(path)
-	files.forEach(file => {
-		const stat = fs.statSync(`${path}/${file}`)
-		if(stat.isDirectory()){
-			readAllFiles(`${path}/${file}`, arrayOfFiles)
-		}else if(file.includes('.md')){  
-		//	arrayOfFiles.push(`${path}/${file}`)
-        const convertAbsolute = pathAbsolute(`${path}/${file}`)
-        arrayOfFiles.push(convertAbsolute)
-		}
-	});
-	
-	resolve(arrayOfFiles)
-})
-}
-//const arrayprueba = (['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv'])
+        const files = fs.readdirSync(path)
+        files.forEach(file => {
+            const stat = fs.statSync(`${path}/${file}`)
+            if (stat.isDirectory()) {
+                readAllFiles(`${path}/${file}`, arrayOfFiles)
+            } else if (file.includes('.md')) {
+                //	arrayOfFiles.push(`${path}/${file}`)
+                const convertAbsolute = pathAbsolute(`${path}/${file}`)
+                arrayOfFiles.push(convertAbsolute)
 
-const hasDuplicates=(pathReceived)=>{
-    return new Promise((resolve, reject) => {
-        //   let arrayStatusOk = [];
-        findLink(pathReceived).then((resultArray) => {
-            new set(resultArray.href).size < resultArray.length;
-            console.log(resultArray);
-        })
-      //  resolve
+            }
+        });
+        resolve(arrayOfFiles)
+       // console.log(arrayOfFiles)
+       //resolve(resultArray)
     })
-   
-   
-   
 }
+//console.log(readAllFiles('./markdown/'))
 
-//console.log(hasDuplicates());
 
 module.exports = {
     pathAbsolute,
@@ -195,8 +177,7 @@ module.exports = {
     isFileMd,
     findLink,
     statusLink,
-    readAllFiles,
-    hasDuplicates
+    readAllFiles
 };
 
 
