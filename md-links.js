@@ -22,6 +22,7 @@ const mdLinks = (pathReceived, options) => {
               statusLink(pathResult).then((result) => { resolve(result) })
                 .catch((error) => { reject(error) })
               // console.log("validateTrue");
+              
               break;
             case "validateFalse":
               findLink(pathResult).then((result) => { resolve(result) })
@@ -32,17 +33,42 @@ const mdLinks = (pathReceived, options) => {
         }
       } else if (pathIsFolder(pathResult)) {
         console.log('es un directorio');
-         readAllFiles(pathResult).then((result) => {
-       //  console.log(result)
+        readAllFiles(pathResult).then((result) => {
+          result.forEach(element => {
+            // findLink(element).then((res)=>{console.log(res)
+            //      })
+            // console.log(options);
+            switch (options) {
 
-        
-       findLink(result).then((res)=>{console.log(res)
-      })
+              case "validateTrue":
+             // Promise.resolve(statusLink(element));
+                
+                statusLink(element).then((res2) => {
+                //  Promise.resolve(res2);
+               // new Promise((resolve, reject) => {resolve(res2)    })
+                  //console.log(res);
+                  
+
+                })
+                 .catch((error) => { reject(error) })
+                // console.log("validateTrue");
+                break;
+              case "validateFalse":
+                findLink(element).then((res1) => {
+                  resolve(res1)
+                  //console.log(res1);
+                })
+                  .catch((error) => { reject(error) })
+                // console.log(urls);
+                break;
+
+            }
+          });
+
 
         })
-        .catch((error) => { reject(error) })
+          .catch((error) => { reject(error) })
 
-        //recursividad
       }
     } else {
       reject("No existe la ruta ingresada");
@@ -54,4 +80,5 @@ const mdLinks = (pathReceived, options) => {
 
 module.exports = {
   mdLinks
+
 };

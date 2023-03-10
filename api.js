@@ -55,7 +55,7 @@ const isFileMd = (pathReceived) => {
 
 const findLink = (pathReceived) => {
     return new Promise((resolve, reject) => {
-       //   console.log('ruta recibida',pathReceived);
+     //     console.log('ruta recibida',pathReceived);
      //  if(pathReceived.length<2){
         fs.readFile(pathReceived, 'utf-8', (error, data) => {
             if (error) {
@@ -107,8 +107,9 @@ const findLink = (pathReceived) => {
 //const statusLink = ((linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']) => {
 
 const statusLink = (pathReceived) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         //   let arrayStatusOk = [];
+    
         findLink(pathReceived).then((resultArray) => {
             let arrayPromiseFetch = [];
             //  let arrayStatusOk = [];
@@ -117,6 +118,7 @@ const statusLink = (pathReceived) => {
                 arrayPromiseFetch.push(promiseFetch);
 
             })
+            
             Promise.allSettled(arrayPromiseFetch).then((result) => {
                 let okresult = '';
                 for (let i = 0; i < result.length; i++) {
@@ -130,13 +132,21 @@ const statusLink = (pathReceived) => {
                     } else {
                         console.log('error', result[i].reason.cause)
                         okresult = 'fail';
-                        resultArray[i].status = result[i].reason.cause;
+                       // resultArray[i].status = result[i].reason.cause;
+                       resultArray[i].status = '404';
                         resultArray[i].ok = okresult;
                     }
 
-                } resolve(resultArray)
+                }  resolve(resultArray)
+                //console.log(resultArray);
+              //  console.log(resultArray)
             })
-        })
+
+
+            
+           
+        }
+        )
         // reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
         // .catch((error) => {
         //  //   console.log('codigo de error: ',error.name) 
