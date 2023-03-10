@@ -95,7 +95,7 @@ if (argumento1 === '--stats' && !argumento2) {
         .catch((error) => { console.log(error) })
 }
 if (argumento1 === '--stats' && argumento2 === '--validate' || argumento1 === '--validate' && argumento2 === '--stats') {
-    console.log('stats - validate: ', argumento1, argumento2)
+   // console.log('stats - validate: ', argumento1, argumento2)
     mdLinks(pathToEnter, 'validateTrue').then((result) => {
         //console.log(result) 
         //recorro el resultado

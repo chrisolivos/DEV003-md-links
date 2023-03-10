@@ -48,16 +48,20 @@ const isFileMd = (pathReceived) => {
 // funciona 
 //console.log('es .md? ', isFileMd())
 
-//si es carpeta verificar si esta vacia sino recorrer y buscar archivo .md
+//si es carpeta verificar si esta vacia sino recorrer y buscar archivos .md
 
 //si es archivo .md agregar a un array
+//const statusLink = ((linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']) => {
+
 const findLink = (pathReceived) => {
     return new Promise((resolve, reject) => {
        //   console.log('ruta recibida',pathReceived);
      //  if(pathReceived.length<2){
         fs.readFile(pathReceived, 'utf-8', (error, data) => {
             if (error) {
-                return reject({ Error: `Error al leer archivo ${error}` });
+               // return reject({ Error: `Error al leer archivo ${error}` });
+               return reject({ Error: 'Error al leer archivo' });
+
             } else {
                 const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm;
                 const found = data.match(regExp);
@@ -146,6 +150,7 @@ const statusLink = (pathReceived) => {
 
     })
 }
+
 
 const readAllFiles = (path, arrayOfFiles = []) => {
     return new Promise((resolve, reject) => {
