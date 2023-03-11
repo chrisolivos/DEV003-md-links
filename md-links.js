@@ -19,14 +19,15 @@ const mdLinks = (pathReceived, options) => {
           // busca si hay links, si encuentra muestra....
           switch (options) {
             case "validateTrue":
-              statusLink(pathResult).then((result) => { 
+              statusLink(pathResult).then((result) => {
                 resolve(result)
-               // console.log(result)
+                // console.log(result)
               })
-                .catch((error) => { reject(error)               
+                .catch((error) => {
+                  reject(error)
                 })
-               
-              
+
+
               break;
             case "validateFalse":
               findLink(pathResult).then((result) => { resolve(result) })
@@ -37,39 +38,23 @@ const mdLinks = (pathReceived, options) => {
         }
       } else if (pathIsFolder(pathResult)) {
         console.log('es un directorio');
-        readAllFiles(pathResult).then((result) => {
-          result.forEach(element => {
-            // findLink(element).then((res)=>{console.log(res)
-            //      })
-            // console.log(options);
+        readAllFiles(pathResult).then((resultFiles) => {
+          const statusLinkPromises = []
+          resultFiles.forEach(element => {
             switch (options) {
-
-              case "validateTrue":
-             // Promise.resolve(statusLink(element));
-                
-                statusLink(element).then((res2) => {
-               resolve(res2)
-               // new Promise((resolve, reject) => {resolve(res2)    })
-                //  console.log(res2)
-                  
-
-                })
-                 .catch((error) => { reject(error) })
-                // console.log("validateTrue");
+              case 'validateTrue':
+                statusLinkPromises.push(statusLink(element))
                 break;
-              case "validateFalse":
-                findLink(element).then((res1) => {
-                  resolve(res1)
-                  //console.log(res1);
-                })
-                  .catch((error) => { reject(error) })
-                // console.log(urls);
+              case 'validateFalse':
+                statusLinkPromises.push(findLink(element))
                 break;
-
             }
           });
-
-
+            Promise.all(statusLinkPromises).then((result)=>{
+            const links=result.reduce((acc,val)=>acc.concat(val),[])
+            resolve(links)
+            })
+            
         })
           .catch((error) => { reject(error) })
 
