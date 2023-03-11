@@ -28,7 +28,7 @@ if (argumentValue === 'validate' || argumento1 === '--validate' && !argumento2) 
                         status = res.status,
                         ok = res.ok
 
-                    if (href.length > 50) {
+                    if (href.length > 5) {
                         let hrefSmall = href.slice(0, 50) + '...';
                         console.log('href: ', hrefSmall);
                         console.log('text: ', text);
@@ -53,7 +53,7 @@ if (argumentValue === 'validate' || argumento1 === '--validate' && !argumento2) 
                         text = res.text,
                         file = res.file
 
-                    if (href.length > 50) {
+                    if (href.length > 5) {
                         let hrefSmall = href.slice(0, 50) + '...';
                         console.log('href: ', hrefSmall);
                         console.log('text: ', text);

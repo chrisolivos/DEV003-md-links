@@ -52,19 +52,22 @@ const findLink = (pathReceived) => {
     return new Promise((resolve, reject) => {
         //     console.log('ruta recibida',pathReceived);
         //  if(pathReceived.length<2){
-        fs.readFile(pathReceived, 'utf-8', (error, data) => {
+        fs.readFile(pathReceived, 'utf-8', (error, data) => { 
             if (error) {
+                //console.log("Entra a excep");
                 // return reject({ Error: `Error al leer archivo ${error}` });
-                 reject({ Error: 'Error al leer archivo' });
+                //resolve({ Error: 'Error al leer archivo' });
+                let links = [];
+                resolve(links);
 
             } else {
                 const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm;
                 const found = data.match(regExp);
              //   if(!found =='null'){
-                
-                if (found !== [] ) {
+                //console.log("entra no es null",found);
+                if (found !== null) {
                     let links = [];
-                    //console.log("entra no es null");
+                    
                     for (let i = 0; i < found.length; i++) {
                         let start = found[i].indexOf('[');
                         let end = found[i].indexOf(']');
@@ -80,14 +83,17 @@ const findLink = (pathReceived) => {
                      resolve(links)
                 } else {
                     //console.log("entra es null");
-                     reject({ error: 'No contiene urls' })
+                    
+                    //reject({ error: 'No contiene urls' })
+                    let links = [];
+                    //links = '[{href:no encontrado}]';
+                    resolve(links);
                 }
             }
 
 
         })
     })
-
 }
 
 //console.log('mostrar urls: ', findLink())
@@ -104,7 +110,7 @@ const findLink = (pathReceived) => {
 //const statusLink = ((linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']) => {
 
 const statusLink = (pathReceived) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         findLink(pathReceived).then((resultArray) => {
             let arrayPromiseFetch = [];
             resultArray.forEach((links) => {
@@ -137,9 +143,13 @@ const statusLink = (pathReceived) => {
                 //console.log(resultArray);
             })
         }
-        )
+        ).catch((error) => {
+            //reject({error: "Error en catch" });
+            console.log(`Error al leer archivo ${error}`);
+        })
 
     })
+
 }
 
 
