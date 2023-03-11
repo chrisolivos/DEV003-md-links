@@ -2,7 +2,6 @@ const { mdLinks } = require('./md-links.js');
 const inquirer = require('inquirer');
 const colors = require('colors/safe');
 
-
 inquirer
   .prompt([
     {
@@ -13,7 +12,7 @@ inquirer
     {
     type: 'rawlist',
     name: 'options',
-    message: 'Seleccione una opcion',
+    message: 'Opción: ',
     choices: [
       {
         value:'1',
@@ -44,13 +43,11 @@ inquirer
   .then(answers => {
  //   console.info('Answer:', answers.path);
  //   console.info('opciones:', answers.options);
-//  inquirer.prompt(()=> {
-//   console.log(respuestas);
-// });
+//if (pathExist(answers.path)){
     switch (answers.options) {
       case '1':
         mdLinks(answers.path, 'validateTrue').then((result) => {
-           console.log(result)
+       // console.log(result)
           result.forEach((res) => {
                   href = res.href,
                   text = res.text,
@@ -58,7 +55,7 @@ inquirer
                   status = res.status,
                   ok = res.ok
 
-              if (href.length > 50) {
+              if (href.length > 5) {
                   let hrefSmall = href.slice(0, 50) + '...';
                   console.log('href: ', hrefSmall);
                   console.log('text: ', text);
@@ -76,13 +73,13 @@ inquirer
         break;
         case '2':
           mdLinks(answers.path, 'validateFalse').then((result) => {
-            //   console.log(result)
+               //console.log(result)
             result.forEach((res) => {
                 href = res.href,
                     text = res.text,
                     file = res.file
 
-                if (href.length > 50) {
+                if (href.length > 5) {
                     let hrefSmall = href.slice(0, 50) + '...';
                     console.log('href: ', hrefSmall);
                     console.log('text: ', text);
@@ -136,6 +133,9 @@ inquirer
         process.off
         break;
     }
+// }else{
+//   console.log('No se encontró')
+// }
   });
 
   // const options=[{

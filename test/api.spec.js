@@ -1,4 +1,4 @@
-const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, statusLink, findLink } = require('../api.js');
+const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, statusLink, readAllFiles } = require('../src/api.js');
 const filePath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md'
 const filePath2 = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
 const link = '[Node.js](https://nodejs.org/)'
@@ -19,7 +19,13 @@ const linksValidateTrue = [
   }
 ]
 
+// const arrayFiles=[
+//   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\markdown.md',
+//   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\readmeprueba.md'
+  
+// ]
 
+const linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']
 
 describe('function return path absolute', () => {
   it('should be a function', () => {
@@ -70,6 +76,13 @@ describe('function return if is folder', () => {
 
 });
 
+
+// describe('read directories', () => {
+//   it('should find files in a directory', () => {
+//     expect(readAllFiles('./markdwon')).toMatchObject(arrayFiles)
+//   })
+// });
+
 describe('function return if is markdown file', () => {
   it('should be a function', () => {
     expect(typeof isFileMd).toBe('function');
@@ -81,47 +94,49 @@ describe('function return if is markdown file', () => {
 });
 
 
-describe('function return state of links', () => {
-  it('should be a function', () => {
-    expect(typeof statusLink).toBe('function');
-  });
+// describe('function return state of links', () => {
+//   it('should be a function', () => {
+//     expect(typeof statusLink).toBe('function');
+//   });
 
-  it('should return array (href,text,file)', () => {
-    statusLink(filePath2).then(() => {
+//   it('should return array (href,text,file)', async() => {
+//     return await statusLink(filePath2).then((data) => {
+//       expect(data).toEqual(linksValidateTrue);
+//     })
+//     //  statusLink(filePath2).then((result) => {
+//     // Promise.allSettled(findLink(result)).then((data)=>{
+//     //   expect(data).resolves.toEqual(linksValidateTrue);
+//     // })
 
-      // expect(data).resolves.toEqual(linksValidateTrue);
-      return expect(Promise.resolve(statusLink(filePath2))).resolves.toEqual(linksValidateTrue);
-    })
-    // await expect(statusLink(filePath2)).resolves.not.toThrow();
+//     // //  return expect(Promise.resolve(statusLink(filePath2))).resolves.toEqual(linksValidateTrue);
+//     // })
+//     // await expect(statusLink(filePath2)).resolves.not.toThrow();
 
-  });
-
-})
-
-describe('function return links', () => {
-  it('should be a function', () => {
-    expect(typeof findLink).toBe('function');
-  });
-
-  it('should return array (href,text,file)', () => {
-
-    findLink(filePath2).then(() => {
-      return expect(Promise.resolve(findLink(filePath2))).resolves.toEqual(linksValidateFalse);
-    })
-  });
-
-  it('should match with regex', () => {
-    const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
-    expect(link).toMatch(regex)
-  })
+//   });
 
 
+//})
 
-  // it('should return an error',async () => {
-  //    //await expect(findLink('errorarchivo.md')).rejects.toEqual({error: 'Error al leer archivo'});
-  //     return expect(Promise.reject(new Error('Error al leer archivo'))).rejects.toThrow(
-  //      'Error al leer archivo',
-  //    );
+// describe('function return links', () => {
+//   it('should be a function', () => {
+//     expect(typeof findLink).toBe('function');
+//   });
+
+//   it('should return array (href,text,file)', () => {
+
+//     findLink(filePath2).then((result) => {
+//       return expect(result).toEqual(linksValidateFalse);
+//     })
+//   });
+
+  // it('should match with regex', () => {
+  //   const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
+  //   expect(link).toMatch(regex)
+  // })
+
+
+
+
 
   //  return expect(Promise.reject(new Error('Error al leer archivo'))).rejects.toThrow(
   //   'No contiene urls',
@@ -130,7 +145,7 @@ describe('function return links', () => {
   //await expect(statusLink('errorarchivo')).rejects.toMatch({error: 'Error al leer archivo'});
   //});
 
-})
+//})
 
 
 

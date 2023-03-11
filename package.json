@@ -1,8 +1,8 @@
 {
-  "name": "md-links",
-  "version": "0.1.0",
+  "name": "markdown-search-links",
+  "version": "1.0.0",
   "description": "Permite buscar links en archivos markdown",
-  "main": "index.js",
+  "main": "src/cli.js",
   "keywords": [
     "javascript",
     "nodejs",

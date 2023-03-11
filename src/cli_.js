@@ -108,7 +108,14 @@ if (argumento1 === '--stats' && argumento2 === '--validate' || argumento1 === '-
             }
 
         });
+        const arrayUnique = []
+        result.forEach((element) => {
+            if (!arrayUnique.includes(element.href)) {
+                arrayUnique.push(element.href)
+            }
+        })
         console.log('Total: ', result.length)
+        console.log('Unique: ', arrayUnique.length)
         console.log('Borken: ', broken.length)
     })
         .catch((error) => { console.log(error) })
