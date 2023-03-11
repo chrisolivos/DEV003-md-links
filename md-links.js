@@ -50,7 +50,7 @@ const mdLinks = (pathReceived, options) => {
                 statusLink(element).then((res2) => {
                resolve(res2)
                // new Promise((resolve, reject) => {resolve(res2)    })
-                  console.log(res2)
+                //  console.log(res2)
                   
 
                 })
