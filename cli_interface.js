@@ -50,9 +50,9 @@ inquirer
     switch (answers.options) {
       case '1':
         mdLinks(answers.path, 'validateTrue').then((result) => {
-          // console.log(result)
+           console.log(result)
           result.forEach((res) => {
-              href = res.href,
+                  href = res.href,
                   text = res.text,
                   file = res.file,
                   status = res.status,

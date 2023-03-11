@@ -19,9 +19,13 @@ const mdLinks = (pathReceived, options) => {
           // busca si hay links, si encuentra muestra....
           switch (options) {
             case "validateTrue":
-              statusLink(pathResult).then((result) => { resolve(result) })
-                .catch((error) => { reject(error) })
-              // console.log("validateTrue");
+              statusLink(pathResult).then((result) => { 
+                resolve(result)
+               // console.log(result)
+              })
+                .catch((error) => { reject(error)               
+                })
+               
               
               break;
             case "validateFalse":
@@ -44,9 +48,9 @@ const mdLinks = (pathReceived, options) => {
              // Promise.resolve(statusLink(element));
                 
                 statusLink(element).then((res2) => {
-                //  Promise.resolve(res2);
+               resolve(res2)
                // new Promise((resolve, reject) => {resolve(res2)    })
-                  //console.log(res);
+                  console.log(res2)
                   
 
                 })

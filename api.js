@@ -137,7 +137,9 @@ const statusLink = (pathReceived) => {
                         resultArray[i].ok = okresult;
                     }
 
-                }  resolve(resultArray)
+                }  
+                
+                resolve(resultArray)
                 //console.log(resultArray);
               //  console.log(resultArray)
             })
