@@ -1,29 +1,38 @@
-const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink } = require('../src/api.js');
+const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink, statusLink, readAllFiles } = require('../src/api.js');
 const filePath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md'
 const filePath2 = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
-const link = '[Node.js](https://nodejs.org/)'
+const filePathArray =
+[
+  'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md', 
+  'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
+]
+const directoryPath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\'
+const link = '[Node.js](httpfilePath2s://nodejs.org/)'
+// const linkArray = 
+// [{
+//   'https://nodejs.org/',
+// }]
 
-const linksValidateFalse = [{
-  href: 'https://nodejs.org/',
-  text: 'Node.js',
-  file: 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
-}]
+const linksValidateFalse =
+  [{
+    href: 'https://nodejs.org/',
+    text: 'Node.js',
+    file: 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
+  }]
 
-const linksValidateTrue = [
-  {
+const linksValidateTrue =
+  [{
     href: 'https://nodejs.org/',
     text: 'Node.js',
     file: 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md',
     status: 200,
     ok: 'ok'
   }
-]
+  ]
 
-// const arrayFiles=[
-//   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\markdown.md',
-//   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\readmeprueba.md'
-  
-// ]
+// const arrayFiles=[{
+//   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md',
+// }]
 
 const linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']
 
@@ -94,29 +103,6 @@ describe('function return if is markdown file', () => {
 });
 
 
-// describe('function return state of links', () => {
-//   it('should be a function', () => {
-//     expect(typeof statusLink).toBe('function');
-//   });
-
-//   it('should return array (href,text,file)', async() => {
-//     return await statusLink(filePath2).then((data) => {
-//       expect(data).toEqual(linksValidateTrue);
-//     })
-//     //  statusLink(filePath2).then((result) => {
-//     // Promise.allSettled(findLink(result)).then((data)=>{
-//     //   expect(data).resolves.toEqual(linksValidateTrue);
-//     // })
-
-//     // //  return expect(Promise.resolve(statusLink(filePath2))).resolves.toEqual(linksValidateTrue);
-//     // })
-//     // await expect(statusLink(filePath2)).resolves.not.toThrow();
-
-//   });
-
-
-//})
-
 describe('function return links', () => {
   it('should be a function', () => {
     expect(typeof findLink).toBe('function');
@@ -136,18 +122,18 @@ describe('function return links', () => {
   })
 
 
-  it('should match with regex', async() => {
-  await  findLink(filePath2).then(() => {
-  // console.log('========================>', filePath2)
-    const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
-    // const found = result.match(regexp)
-    // console.log('found:', found)
-    expect(link).toMatch(regex)
+  it('should match with regex', async () => {
+    await findLink(filePath2).then(() => {
+      // console.log('========================>', filePath2)
+      const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
+      // const found = result.match(regexp)
+      // console.log('found:', found)
+      expect(link).toMatch(regex)
+    })
   })
-})
 
   it('should be an empty array', () => {
-      findLink(filePath).then((result) => {
+    findLink(filePath).then((result) => {
 
       expect(result).toMatchObject([])
     })
@@ -156,7 +142,65 @@ describe('function return links', () => {
 
 })
 
+/*********FETCH*********** */
 
+global.fetch = jest.fn(() => {
+  return Promise.resolve({
+    href: 'https://es.wikipedia.org/wiki/Markdown',
+    text: 'Markdown',
+    file: './texto.md',
+    status: 200,
+    ok: 'ok'
+  })
+})
+
+describe('function return links', () => {
+  it('should be a function', () => {
+    expect(typeof statusLink).toBe('function');
+  })
+
+  it('shuld return links with http request', () => {
+  // statusLink(linksValidateFalse).then((data) => {
+
+      statusLink(filePath2).then(() => {
+        // return findLink(filePath2).then((data) => {
+        // })
+        expect(findLink()).toHaveBeenCalled();
+        })
+      // const data =statusLink([])
+      //expect(data).toEqual(linksValidateTrue)
+    //  expect(data.ok).toBe('ok')
+    })
+
+    it('should reject promise', () => {
+      return (statusLink('./pruebamd.md')).catch((error) => {
+        expect(error).toBe(new Error('Error al leer archivo'))
+      })
+    })
+
+  })
+//})
+
+
+
+
+describe('readAllFiles with path directory Prueba1', () => {
+  it('should return an array of md files', () => {
+
+    const arrayFilesMd = []
+    expect(readAllFiles(directoryPath, arrayFilesMd)).toContain(filePathArray)
+
+  })
+})
+
+
+// describe('readAllFiles with path directory-test', () => {
+//   it('should return an array of md files', () => {
+//     const pathTest = 'C:\\Users\\Winney\\Documents\\desarrollo-web\\proyectos laboratoria\\Bootcamp\\DEV003-md-links\\DEV003-md-links\\directory-test'
+//     const arrayFilesMd = []
+//     expect(api.readAllFiles(pathTest, arrayFilesMd)).toContain('C:\\Users\\Winney\\Documents\\desarrollo-web\\proyectos laboratoria\\Bootcamp\\DEV003-md-links\\DEV003-md-links\\directory-test\\directory-test-4\\README.md')
+//   })
+// })
 
   //  return expect(Promise.reject(new Error('Error al leer archivo'))).rejects.toThrow(
   //   'No contiene urls',

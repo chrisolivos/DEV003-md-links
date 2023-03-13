@@ -110,6 +110,7 @@ const findLink = (pathReceived) => {
 //const statusLink = ((linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']) => {
 
 const statusLink = (pathReceived) => {
+   // console.log(pathReceived);
     return new Promise((resolve, reject) => {
         findLink(pathReceived).then((resultArray) => {
             let arrayPromiseFetch = [];
@@ -145,7 +146,8 @@ const statusLink = (pathReceived) => {
         }
         ).catch((error) => {
             //reject({error: "Error en catch" });
-            console.log(`Error al leer archivo ${error}`);
+           // console.log(`Error al leer archivo ${error}`);
+           console.log('Error al leer archivo');
         })
 
     })
@@ -168,7 +170,7 @@ const readAllFiles = (path, arrayOfFiles = []) => {
             }
         });
         resolve(arrayOfFiles)
-        // console.log(arrayOfFiles)
+       // console.log(arrayOfFiles)
     })
 }
 //console.log(readAllFiles('./markdown/'))

@@ -84,9 +84,7 @@ CLI
 •	  Se ejecuta sin errores / output esperado
 •	  Implementa --validate
 •	  Implementa --stats
-•	  Agregar más estadísticas.
-•	  Integración continua con Travis o Circle CI.
-Pruebas / tests
+•	  Pruebas / tests
 •	  Pruebas unitarias cubren un mínimo del 70% de statements, functions, lines, y branches.
 •	  Pasa tests (y linters) (npm test).
 ## 5. Instalación y Uso
