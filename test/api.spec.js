@@ -115,7 +115,7 @@ describe('function return links', () => {
     expect(link).toMatch(regex)
   })
 
-
+/*/**/*/* */
 
   // it('should return an error',async () => {
   //    //await expect(findLink('errorarchivo.md')).rejects.toEqual({error: 'Error al leer archivo'});
