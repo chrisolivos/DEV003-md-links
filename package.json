@@ -2,7 +2,7 @@
   "name": "markdown-search-links",
   "version": "1.0.0",
   "description": "Permite buscar links en archivos markdown",
-  "main": "src/cli.js",
+  "main": "index.js",
   "keywords": [
     "javascript",
     "nodejs",

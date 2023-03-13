@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { mdLinks } = require('./md-links.js');
+const { mdLinks } = require('./md-links');
 const [, , , argumento1] = process.argv
 const [, , , , argumento2] = process.argv
 const [, validate] = argumento1.split(":")

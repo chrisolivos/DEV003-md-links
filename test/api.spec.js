@@ -1,4 +1,4 @@
-const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, statusLink, readAllFiles } = require('../src/api.js');
+const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink } = require('../src/api.js');
 const filePath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md'
 const filePath2 = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
 const link = '[Node.js](https://nodejs.org/)'
@@ -117,24 +117,44 @@ describe('function return if is markdown file', () => {
 
 //})
 
-// describe('function return links', () => {
-//   it('should be a function', () => {
-//     expect(typeof findLink).toBe('function');
-//   });
+describe('function return links', () => {
+  it('should be a function', () => {
+    expect(typeof findLink).toBe('function');
+  });
 
-//   it('should return array (href,text,file)', () => {
+  it('should return array (href,text,file)', () => {
 
-//     findLink(filePath2).then((result) => {
-//       return expect(result).toEqual(linksValidateFalse);
-//     })
-//   });
+    findLink(filePath2).then((result) => {
+      return expect(result).toEqual(linksValidateFalse);
+    })
+  });
 
-  // it('should match with regex', () => {
-  //   const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
-  //   expect(link).toMatch(regex)
-  // })
+  it('should reject promise', () => {
+    return (findLink('./pruebamd.md')).catch((error) => {
+      expect(error).toBe([])
+    })
+  })
 
 
+  it('should match with regex', async() => {
+  await  findLink(filePath2).then(() => {
+  // console.log('========================>', filePath2)
+    const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
+    // const found = result.match(regexp)
+    // console.log('found:', found)
+    expect(link).toMatch(regex)
+  })
+})
+
+  it('should be an empty array', () => {
+      findLink(filePath).then((result) => {
+
+      expect(result).toMatchObject([])
+    })
+  })
+
+
+})
 
 
 
@@ -144,9 +164,4 @@ describe('function return if is markdown file', () => {
   //  await expect(statusLink('errorarchivo.md')).rejects.toThrow({error: 'Error al leer archivo'});
   //await expect(statusLink('errorarchivo')).rejects.toMatch({error: 'Error al leer archivo'});
   //});
-
-//})
-
-
-
 
