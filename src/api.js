@@ -52,7 +52,7 @@ const findLink = (pathReceived) => {
     return new Promise((resolve, reject) => {
         //     console.log('ruta recibida',pathReceived);
         //  if(pathReceived.length<2){
-        fs.readFile(pathReceived, 'utf-8', (error, data) => { 
+        fs.readFile(pathReceived, 'utf-8', (error, data) => {
             if (error) {
                 //console.log("Entra a excep");
                 // return reject({ Error: `Error al leer archivo ${error}` });
@@ -63,11 +63,11 @@ const findLink = (pathReceived) => {
             } else {
                 const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm;
                 const found = data.match(regExp);
-             //   if(!found =='null'){
+                //   if(!found =='null'){
                 //console.log("entra no es null",found);
                 if (found !== null) {
                     let links = [];
-                    
+
                     for (let i = 0; i < found.length; i++) {
                         let start = found[i].indexOf('[');
                         let end = found[i].indexOf(']');
@@ -79,11 +79,11 @@ const findLink = (pathReceived) => {
                         //  console.log(obj);  
                         links.push(obj);
                     }
-                     
-                     resolve(links)
+
+                    resolve(links)
                 } else {
                     //console.log("entra es null");
-                    
+
                     //reject({ error: 'No contiene urls' })
                     let links = [];
                     //links = '[{href:no encontrado}]';
@@ -110,7 +110,7 @@ const findLink = (pathReceived) => {
 //const statusLink = ((linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']) => {
 
 const statusLink = (pathReceived) => {
-   // console.log(pathReceived);
+    // console.log(pathReceived);
     return new Promise((resolve, reject) => {
         findLink(pathReceived).then((resultArray) => {
             let arrayPromiseFetch = [];
@@ -123,20 +123,23 @@ const statusLink = (pathReceived) => {
             Promise.allSettled(arrayPromiseFetch).then((result) => {
                 let okresult = '';
                 for (let i = 0; i < result.length; i++) {
-                    if (result[i].status = 'fullfiled') {
-                        // console.log('status: ', result[i].value.status, result[i].value.ok)
+                    //console.log('ESTADO: ', result[i].status)
+                
+                    if (result[i].status == 'fulfilled') {
+
                         result[i].value.ok ? okresult = 'ok' : okresult = 'fail';
                         //console.log(res.status);
                         resultArray[i].status = result[i].value.status;
-                        resultArray[i].statusText = okresult;
+                        resultArray[i].ok = okresult;
 
                     } else {
-                        console.log('error', result[i].reason.cause)
+                        //console.log('RAZON DEL PROBLEMA', result[i].reason)
                         okresult = 'fail';
                         // resultArray[i].status = result[i].reason.cause;
-                        resultArray[i].status = '404';
-                        resultArray[i].statusText = okresult;
+                        resultArray[i].status = '500'; //result[i].reason.errno;
+                        resultArray[i].ok = okresult;
                     }
+
 
                 }
 
@@ -146,8 +149,8 @@ const statusLink = (pathReceived) => {
         }
         ).catch((error) => {
             //reject({error: "Error en catch" });
-           // console.log(`Error al leer archivo ${error}`);
-           console.log('Error al leer archivo');
+            // console.log(`Error al leer archivo ${error}`);
+            console.log('Error al leer archivo');
         })
 
     })
@@ -170,7 +173,7 @@ const readAllFiles = (path, arrayOfFiles = []) => {
             }
         });
         resolve(arrayOfFiles)
-       // console.log(arrayOfFiles)
+        // console.log(arrayOfFiles)
     })
 }
 //console.log(readAllFiles('./markdown/'))

@@ -1,12 +1,14 @@
 const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink, statusLink, readAllFiles } = require('../src/api.js');
 const filePath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md'
 const filePath2 = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
+const directoryPath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\'
+
 const filePathArray =
 [
   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md', 
   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
 ]
-const directoryPath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\'
+
 const link = '[Node.js](httpfilePath2s://nodejs.org/)'
 // const linkArray = 
 // [{
@@ -182,13 +184,13 @@ describe('function return links', () => {
 //})
 
 
-
-
 describe('readAllFiles with path directory Prueba1', () => {
   it('should return an array of md files', () => {
-
-    const arrayFilesMd = []
-    expect(readAllFiles(directoryPath, arrayFilesMd)).toContain(filePathArray)
+    readAllFiles(directoryPath).then((result)=>{
+       expect(result).toMatchObject(filePathArray)
+    })
+     //   const arrayFilesMd = []
+   
 
   })
 })
