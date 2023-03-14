@@ -1,6 +1,6 @@
 {
-  "name": "chrisolivos-md-links",
-  "version": "0.1.0",
+  "name": "chrisolivos-mdlinks",
+  "version": "1.0.1",
   "description": "Permite buscar links en archivos markdown",
   "main": "index.js",
   "keywords": [
@@ -40,6 +40,9 @@
     "type": "github",
     "url": "https://github.com/chrisolivos/DEV003-md-links.git"
   },
-  "homepage": "https://github.com/chrisolivos/DEV003-md-links/blob/main/README.md"
+  "homepage": "https://github.com/chrisolivos/DEV003-md-links/blob/main/README.md",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 
 }
