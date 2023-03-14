@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/chrisolivos/DEV003-md-links/blob/main/README.md",
   "publishConfig": {
-    "@YOUR-USERNAME:registry": "https://npm.pkg.github.com"
+    "@chrisolivos:registry": "https://npm.pkg.github.com"
   }
 
 }
