@@ -4,16 +4,12 @@ const filePath2 = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-li
 const directoryPath = 'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\'
 
 const filePathArray =
-[
-  'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md', 
-  'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
-]
+  [
+    'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebamd.md',
+    'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md'
+  ]
 
 const link = '[Node.js](httpfilePath2s://nodejs.org/)'
-// const linkArray = 
-// [{
-//   'https://nodejs.org/',
-// }]
 
 const linksValidateFalse =
   [{
@@ -31,11 +27,6 @@ const linksValidateTrue =
     ok: 'ok'
   }
   ]
-
-// const arrayFiles=[{
-//   'C:\\Users\\spsa\\Desktop\\Laboratoria\\Projects\\DEV003-md-links\\markdown\\prueba1\\pruebaTest.md',
-// }]
-
 const linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']
 
 describe('function return path absolute', () => {
@@ -87,13 +78,6 @@ describe('function return if is folder', () => {
 
 });
 
-
-// describe('read directories', () => {
-//   it('should find files in a directory', () => {
-//     expect(readAllFiles('./markdwon')).toMatchObject(arrayFiles)
-//   })
-// });
-
 describe('function return if is markdown file', () => {
   it('should be a function', () => {
     expect(typeof isFileMd).toBe('function');
@@ -119,7 +103,7 @@ describe('function return links', () => {
 
   it('should reject promise', () => {
     return (findLink('./pruebamd.md')).catch((error) => {
-      expect(error).toBe([])
+      expect(error).toEqual([])
     })
   })
 
@@ -134,10 +118,10 @@ describe('function return links', () => {
     })
   })
 
-  it('should be an empty array', () => {
-    findLink(filePath).then((result) => {
-
-      expect(result).toMatchObject([])
+  it('should be an empty array',async () => {
+   await findLink(filePath).then((result) => {
+    console.log('===>', result)
+      expect(result).toStrictEqual([])
     })
   })
 
@@ -161,36 +145,36 @@ describe('function return links', () => {
     expect(typeof statusLink).toBe('function');
   })
 
-  it('shuld return links with http request', () => {
-  // statusLink(linksValidateFalse).then((data) => {
+  // it('shuld return links with http request', () => {
+  //   // statusLink(linksValidateFalse).then((data) => {
 
-      statusLink(filePath2).then(() => {
-        // return findLink(filePath2).then((data) => {
-        // })
-        expect(findLink()).toHaveBeenCalled();
-        })
-      // const data =statusLink([])
-      //expect(data).toEqual(linksValidateTrue)
-    //  expect(data.ok).toBe('ok')
+  //   statusLink(filePath2).then(() => {
+  //     // return findLink(filePath2).then((data) => {
+  //     // })
+  //     expect(findLink()).toHaveBeenCalled();
+  //   })
+  //   // const data =statusLink([])
+  //   //expect(data).toEqual(linksValidateTrue)
+  //   //  expect(data.ok).toBe('ok')
+  // })
+
+  it('should reject promise', () => {
+    return (statusLink('./pruebamd.md')).catch((error) => {
+      expect(error).toBe(new Error('Error al leer archivo'))
     })
-
-    it('should reject promise', () => {
-      return (statusLink('./pruebamd.md')).catch((error) => {
-        expect(error).toBe(new Error('Error al leer archivo'))
-      })
-    })
-
   })
-//})
+
+})
+
 
 
 describe('readAllFiles with path directory Prueba1', () => {
   it('should return an array of md files', () => {
-    readAllFiles(directoryPath).then((result)=>{
-       expect(result).toMatchObject(filePathArray)
+    readAllFiles(directoryPath).then((result) => {
+      expect(result).toMatchObject(filePathArray)
     })
-     //   const arrayFilesMd = []
-   
+    //   const arrayFilesMd = []
+
 
   })
 })
