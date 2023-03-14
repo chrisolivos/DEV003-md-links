@@ -41,33 +41,33 @@ const pathIsFolder = (pathReceived) => {
 const isFileMd = (pathReceived) => {
     const extFile = path.extname(pathReceived);
     if (extFile === '.md') {
-        // leer el archivo, buscar link y agregarlos a un array
         return true;
     }
 }
-// funciona 
 //console.log('es .md? ', isFileMd())
 
-//si es carpeta verificar si esta vacia sino recorrer y buscar archivos .md
 
-//si es archivo .md agregar a un array
 //const statusLink = ((linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']) => {
-
 const findLink = (pathReceived) => {
     return new Promise((resolve, reject) => {
-     //     console.log('ruta recibida',pathReceived);
-     //  if(pathReceived.length<2){
-        fs.readFile(pathReceived, 'utf-8', (error, data) => {
+        //     console.log('ruta recibida',pathReceived);
+        //  if(pathReceived.length<2){
+        fs.readFile(pathReceived, 'utf-8', (error, data) => { 
             if (error) {
-               // return reject({ Error: `Error al leer archivo ${error}` });
-               return reject({ Error: 'Error al leer archivo' });
+                //console.log("Entra a excep");
+                // return reject({ Error: `Error al leer archivo ${error}` });
+                //resolve({ Error: 'Error al leer archivo' });
+                let links = [];
+                resolve(links);
 
             } else {
                 const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm;
                 const found = data.match(regExp);
-
-                if (found !== []) {
+             //   if(!found =='null'){
+                //console.log("entra no es null",found);
+                if (found !== null) {
                     let links = [];
+                    
                     for (let i = 0; i < found.length; i++) {
                         let start = found[i].indexOf('[');
                         let end = found[i].indexOf(']');
@@ -79,18 +79,21 @@ const findLink = (pathReceived) => {
                         //  console.log(obj);  
                         links.push(obj);
                     }
-                    //  const datos = obj;
-                    //   console.log(links); // funciona
-                    return resolve(links)
+                     
+                     resolve(links)
                 } else {
-                    return reject({ error: 'No contiene urls' })
+                    //console.log("entra es null");
+                    
+                    //reject({ error: 'No contiene urls' })
+                    let links = [];
+                    //links = '[{href:no encontrado}]';
+                    resolve(links);
                 }
             }
 
-        
+
         })
     })
-
 }
 
 //console.log('mostrar urls: ', findLink())
@@ -107,60 +110,48 @@ const findLink = (pathReceived) => {
 //const statusLink = ((linkArray = ['http://algo.com/2/3/', 'http://google.com/', 'https://api.discogs.com/artists/100/releasesv']) => {
 
 const statusLink = (pathReceived) => {
-    return new Promise((resolve) => {
-        //   let arrayStatusOk = [];
-    
+   // console.log(pathReceived);
+    return new Promise((resolve, reject) => {
         findLink(pathReceived).then((resultArray) => {
             let arrayPromiseFetch = [];
-            //  let arrayStatusOk = [];
             resultArray.forEach((links) => {
                 const promiseFetch = fetch(links.href);
                 arrayPromiseFetch.push(promiseFetch);
 
             })
-            
+
             Promise.allSettled(arrayPromiseFetch).then((result) => {
                 let okresult = '';
                 for (let i = 0; i < result.length; i++) {
                     if (result[i].status = 'fullfiled') {
-                       // console.log('status: ', result[i].value.status, result[i].value.ok)
+                        // console.log('status: ', result[i].value.status, result[i].value.ok)
                         result[i].value.ok ? okresult = 'ok' : okresult = 'fail';
-                        //console.log(res.status); falta manejar la exception con el reject para codigo 500
+                        //console.log(res.status);
                         resultArray[i].status = result[i].value.status;
                         resultArray[i].ok = okresult;
 
                     } else {
                         console.log('error', result[i].reason.cause)
                         okresult = 'fail';
-                       // resultArray[i].status = result[i].reason.cause;
-                       resultArray[i].status = '404';
+                        // resultArray[i].status = result[i].reason.cause;
+                        resultArray[i].status = '404';
                         resultArray[i].ok = okresult;
                     }
 
-                }  
-                
+                }
+
                 resolve(resultArray)
                 //console.log(resultArray);
-              //  console.log(resultArray)
             })
-
-
-            
-           
         }
-        )
-        // reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
-        // .catch((error) => {
-        //  //   console.log('codigo de error: ',error.name) 
-        //  console.log('codigo de error: ',error) 
-        //  //    if (error.name === 'ENOTFOUND'){
-        //    //     console.log('Url no encontrada')
-        //    //  }
-
-        // }) 
-
+        ).catch((error) => {
+            //reject({error: "Error en catch" });
+           // console.log(`Error al leer archivo ${error}`);
+           console.log('Error al leer archivo');
+        })
 
     })
+
 }
 
 
@@ -180,7 +171,6 @@ const readAllFiles = (path, arrayOfFiles = []) => {
         });
         resolve(arrayOfFiles)
        // console.log(arrayOfFiles)
-       //resolve(resultArray)
     })
 }
 //console.log(readAllFiles('./markdown/'))

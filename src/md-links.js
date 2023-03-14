@@ -1,7 +1,8 @@
 
-const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink, statusLink, readAllFiles, hasDuplicates } = require('./api.js');
+const { pathAbsolute, pathExist, pathIsFile, pathIsFolder, isFileMd, findLink, statusLink, readAllFiles } = require('./api.js');
 const fs = require('fs'); //manejo de archivos
 const path = require('path');
+
 
 
 const mdLinks = (pathReceived, options) => {
@@ -21,7 +22,7 @@ const mdLinks = (pathReceived, options) => {
             case "validateTrue":
               statusLink(pathResult).then((result) => {
                 resolve(result)
-                // console.log(result)
+             //   console.log(result)
               })
                 .catch((error) => {
                   reject(error)
@@ -37,7 +38,7 @@ const mdLinks = (pathReceived, options) => {
           }
         }
       } else if (pathIsFolder(pathResult)) {
-        console.log('es un directorio');
+       // console.log('es un directorio');
         readAllFiles(pathResult).then((resultFiles) => {
           const statusLinkPromises = []
           resultFiles.forEach(element => {
@@ -52,7 +53,8 @@ const mdLinks = (pathReceived, options) => {
           });
             Promise.all(statusLinkPromises).then((result)=>{
             const links=result.reduce((acc,val)=>acc.concat(val),[])
-            resolve(links)
+            resolve(links);
+            //console.log(links);
             })
             
         })

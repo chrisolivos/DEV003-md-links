@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { mdLinks } = require('./md-links.js');
+const { mdLinks } = require('./md-links');
 const [, , , argumento1] = process.argv
 const [, , , , argumento2] = process.argv
 const [, validate] = argumento1.split(":")
@@ -28,7 +28,7 @@ if (argumentValue === 'validate' || argumento1 === '--validate' && !argumento2) 
                         status = res.status,
                         ok = res.ok
 
-                    if (href.length > 50) {
+                    if (href.length > 5) {
                         let hrefSmall = href.slice(0, 50) + '...';
                         console.log('href: ', hrefSmall);
                         console.log('text: ', text);
@@ -53,7 +53,7 @@ if (argumentValue === 'validate' || argumento1 === '--validate' && !argumento2) 
                         text = res.text,
                         file = res.file
 
-                    if (href.length > 50) {
+                    if (href.length > 5) {
                         let hrefSmall = href.slice(0, 50) + '...';
                         console.log('href: ', hrefSmall);
                         console.log('text: ', text);
@@ -108,7 +108,14 @@ if (argumento1 === '--stats' && argumento2 === '--validate' || argumento1 === '-
             }
 
         });
+        const arrayUnique = []
+        result.forEach((element) => {
+            if (!arrayUnique.includes(element.href)) {
+                arrayUnique.push(element.href)
+            }
+        })
         console.log('Total: ', result.length)
+        console.log('Unique: ', arrayUnique.length)
         console.log('Borken: ', broken.length)
     })
         .catch((error) => { console.log(error) })
