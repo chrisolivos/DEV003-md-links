@@ -126,11 +126,11 @@ Con **validate: true**
 
 **Guía de uso**
 
-En la línea de comando escribimos: chrisolivos-mdlinks (enter), a continuación nos solicitará la ruta del directorio o archivo.md <br>
+En la línea de comando escribimos: chrisolivos-mdlinks (enter), a continuación nos solicitará la ruta del directorio o archivo.md y a continuación nos mostrará el Menú de opciones para elegir: <br>
 ![Menu_directorio](img/menu.png)
 ![Menu_archivo](img/menu_archivo.png)
 <br>
-A continuación nos mostrará el Menú de opciones para elegir: <br>
+
 1. Validate: True <br>
 ![validate_true](img/menu_op_validateTrue.png)<br>
 2. Validate: False <br>
