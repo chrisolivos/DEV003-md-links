@@ -93,7 +93,7 @@ chrisolivos-mdlinks <br>
 Es un CLI que verifica los links que contienen archivos.md, reporta estadísticas de los links y si estan rotos.
 
 **Instalación via npm**<br>
-$ npm install chrisolivos-md-links
+$ npm install chrisolivos-mdlinks
 <br>Para acceder se debe importar con require('chrisolivos-mdlinks')
 
 **Instalación via github**<br>
@@ -126,7 +126,7 @@ Con **validate: true**
 
 **Guía de uso**
 
-En la línea de comando escribimos: chrisolivos-md-links (enter), a continuación nos solicitará la ruta del directorio o archivo.md y a continuación nos mostrará el Menú de opciones para elegir: <br>
+En la línea de comando escribimos: chrisolivos-mdlinks (enter), a continuación nos solicitará la ruta del directorio o archivo.md y a continuación nos mostrará el Menú de opciones para elegir: <br>
 ![Menu_directorio](img/menu.png)
 ![Menu_archivo](img/menu_archivo.png)
 <br>

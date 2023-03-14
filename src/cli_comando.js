@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+
 
 const { mdLinks } = require('./md-links');
 const [, , , argumento1] = process.argv
