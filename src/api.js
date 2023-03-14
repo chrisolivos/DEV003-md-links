@@ -128,14 +128,14 @@ const statusLink = (pathReceived) => {
                         result[i].value.ok ? okresult = 'ok' : okresult = 'fail';
                         //console.log(res.status);
                         resultArray[i].status = result[i].value.status;
-                        resultArray[i].ok = okresult;
+                        resultArray[i].statusText = okresult;
 
                     } else {
                         console.log('error', result[i].reason.cause)
                         okresult = 'fail';
                         // resultArray[i].status = result[i].reason.cause;
                         resultArray[i].status = '404';
-                        resultArray[i].ok = okresult;
+                        resultArray[i].statusText = okresult;
                     }
 
                 }

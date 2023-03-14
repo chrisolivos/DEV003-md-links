@@ -1,5 +1,5 @@
 # Markdown Links
-*	Este proyecto se realizó siguiendo estas consideraciones El Proyecto 
+*	Este proyecto se realizó siguiendo estas consideraciones [El Proyecto](Readme_proyecto.md "El Proyecto")
 
 
 ## Índice
@@ -88,26 +88,26 @@ CLI
 - [x] Pasa tests (y linters) (npm test).
 ## 5. Instalación y Uso
 
-**Instalación**
-chrisolivos-mdlinks es un CLI que verifica los links que contienen archivos.md, reporta estadísticas de los links y si estan rotos.
+**Instalación**<br>
+chrisolivos-mdlinks <br>
+Es un CLI que verifica los links que contienen archivos.md, reporta estadísticas de los links y si estan rotos.
 
-
-
-**Instalación via npm**
+**Instalación via npm**<br>
 $ npm install chrisolivos-mdlinks
-Para acceder se debe importar con require('chrisolivos-mdlinks')
+<br>Para acceder se debe importar con require('chrisolivos-mdlinks')
 
-**Instalación via github**
+**Instalación via github**<br>
 git clone https://github.com/chrisolivos/DEV003-md-links.git
 
 ------------
-**API**
+**API** <br>
 La función mdLinks tiene:
 
 Parámetros
-•	path: Ruta absoluta o relativa al archivo o directorio. Si la ruta pasada es relativa, se resuelve como relativa al directorio desde donde se invoca node - current working directory.
-•	options: Un objeto con únicamente la siguiente propiedad:
-•	validate: Booleano que determina si se desea validar los links encontrados.
+•	path: Ruta absoluta o relativa al archivo o directorio. Si la ruta pasada es relativa, se resuelve como relativa al directorio desde donde se invoca node - current working directory.<br>
+•	options: Un objeto con únicamente la siguiente propiedad:<br>
+-	validate: Booleano que determina si se desea validar los links encontrados.<br>
+-   stats: 
 
 **Valor de retorno**
 La función retorna una promesa (Promise) que resuelve a un arreglo (Array) de objetos (Object), donde cada objeto representa un link y contiene las siguientes propiedades:
@@ -117,7 +117,7 @@ Con **validate: false**
 •	text: Texto que aparecía dentro del link.
 •	file: Ruta del archivo donde se encontró el link.
 
-Con **validate: false**
+Con **validate: true**
 •	href: URL encontrada.
 •	text: Texto que aparecía dentro del link.
 •	file: Ruta del archivo donde se encontró el link.
@@ -126,7 +126,22 @@ Con **validate: false**
 
 **Guía de uso**
 
-![text alt]()
+En la línea de comando escribimos: chrisolivos-mdlinks (enter), a continuación nos solicitará la ruta del directorio o archivo.md <br>
+![Menu_directorio](img/menu.png)
+![Menu_archivo](img/menu_archivo.png)
+<br>
+A continuación nos mostrará el Menú de opciones para elegir: <br>
+1. Validate: True <br>
+![validate_true](img/menu_op_validateTrue.png)<br>
+2. Validate: False <br>
+![validate_false](img/menu_op_validateFalse.png)<br>
+3. Stats <br>
+![stats](img/menu_op_stats.png)<br>
+4. Validate Stats <br>
+![validate_stats](img/menu_op_stats_validate.png)<br>
+5. Salir <br>
+
+
 ## 6. Consideraciones Generales
 - [x] La librería y el script ejecutable (herramienta de línea de comando - CLI) estan implementados en JavaScript para ser ejecutados con Node.js. No se usó librerías externas.
 - [x] El módulo es instalable via npm install `<github-user>/md-links`. Este módulo incluye tanto un ejecutable que podemos invocar en la línea de comando como una interfaz que podemos importar con require para usarlo programáticamente.
